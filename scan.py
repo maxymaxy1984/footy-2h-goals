@@ -723,7 +723,7 @@ tr:last-child td{border-bottom:0}td.n{text-align:right}th.n{text-align:right}
 """
 
 
-def _table(df, cols, fmt=None, row_cls=None):
+def _table(df, cols, fmt=None, row_cls=None, row_attr=None):
     fmt = fmt or {}
     head = "".join(f'<th class="{"n" if c in fmt else ""}">{html.escape(l)}</th>' for c, l in cols)
     body = []
@@ -738,7 +738,8 @@ def _table(df, cols, fmt=None, row_cls=None):
                 tds.append(f'<td class="{v.lower()}">{v}</td>')
             else:
                 tds.append(f"<td>{'' if pd.isna(v) else html.escape(str(v))}</td>")
-        body.append(f'<tr class="{cls}">{"".join(tds)}</tr>')
+        attr = row_attr(r) if row_attr else ""
+        body.append(f'<tr class="{cls}" {attr}>{"".join(tds)}</tr>')
     return f'<div class="wrap"><table><thead><tr>{head}</tr></thead><tbody>{"".join(body)}</tbody></table></div>'
 
 
@@ -757,12 +758,21 @@ def write_report(scored, summary, thr, calib, by_league, logdf, unmatched, n_his
     live_hit = (settled.result == "WIN").mean() if len(settled) else None
 
     def fx_table(df):
-        d = df.assign(when=df.date.dt.strftime("%a %d %b %H:%M"))
+        # kick-off as a real instant: league times are UK local, cup times are UTC
+        ko = []
+        for dt, kind in zip(df.date, df.kind):
+            ts = pd.Timestamp(dt)
+            ts = (ts.tz_localize("UTC") if kind == "cup" else
+                  ts.tz_localize("Europe/London", ambiguous=True, nonexistent="shift_forward"))
+            ko.append(ts)
+        d = df.assign(when=[t.tz_convert("Europe/London").strftime("%a %d %b %H:%M") for t in ko],
+                      ko_ms=[int(t.timestamp() * 1000) for t in ko])
         return _table(d, [("when", "Kick-off (UK)"), ("comp_name", "Competition"), ("home", "Home"),
                           ("away", "Away"), ("p", "P(2H goal)"), ("fair_odds", "Fair odds"),
                           ("lam", "Exp. 2H goals"), ("hit_h", "Home 2H-goal rate"), ("hit_a", "Away 2H-goal rate")],
                       {"p": pct, "fair_odds": lambda v: f"{v:.2f}", "lam": lambda v: f"{v:.2f}",
-                       "hit_h": pct, "hit_a": pct})
+                       "hit_h": pct, "hit_a": pct},
+                      row_attr=lambda r: f'data-ko="{r.ko_ms}"')
 
     t = next((x for _, x in thr.iterrows() if abs(x.threshold - C.PICK_THRESHOLD) < 1e-9), None)
     parts = [f"""<!doctype html><html lang="en"><head><meta charset="utf-8">
@@ -771,13 +781,13 @@ def write_report(scored, summary, thr, calib, by_league, logdf, unmatched, n_his
 <h1>2nd-Half Goal Finder</h1>
 <p class="sub">Updated {now():%a %d %b %Y %H:%M} · next {C.DAYS_AHEAD} days · threshold {pct(C.PICK_THRESHOLD)} · model built on {n_hist:,} historical matches</p>
 <div class="kpis">
-<div class="kpi"><b>{len(picks)}</b><span>picks in window</span></div>
+<div class="kpi"><b id="pickcount">{len(picks)}</b><span>upcoming picks</span></div>
 <div class="kpi"><b>{pct(t.hit_rate) if t is not None and t.hit_rate else '–'}</b><span>backtest hit rate at threshold ({int(t.picks) if t is not None else 0} matches)</span></div>
 <div class="kpi"><b>{pct(summary['base_rate'])}</b><span>all-match base rate (test period)</span></div>
 <div class="kpi"><b>{pct(live_hit) if live_hit is not None else '–'}</b><span>live record ({len(settled)} settled)</span></div>
 </div>
 <h2>Picks</h2>""",
-             fx_table(picks) if len(picks) else '<p class="note">No fixture clears the threshold in this window.</p>',
+             f'<div id="picks">{fx_table(picks)}</div>' if len(picks) else '<p class="note">No fixture clears the threshold in this window.</p>',
              '<p class="note">Only back a pick when the available price is above its fair odds. Over 0.5 2H goals is usually priced tight; the edge, if any, is in the gap.</p>',
              "<h2>Next best (below threshold)</h2>",
              fx_table(watch) if len(watch) else '<p class="note">None.</p>',
@@ -803,7 +813,22 @@ def write_report(scored, summary, thr, calib, by_league, logdf, unmatched, n_his
              if len(logdf) else '<p class="note">Picks will be logged and settled here automatically.</p>']
     if unmatched:
         parts.append(f'<p class="note">{len(unmatched)} cup team names not matched to league data (rated from cup games only) — see unmatched.txt.</p>')
-    parts.append("</main></body></html>")
+    parts.append("""<script>
+(function(){var now=Date.now(),gone=0;
+document.querySelectorAll("tr[data-ko]").forEach(function(tr){
+ if(+tr.dataset.ko<now){tr.style.display="none";gone++;}});
+document.querySelectorAll(".wrap").forEach(function(w){
+ var rows=w.querySelectorAll("tr[data-ko]");if(!rows.length)return;
+ var vis=[].some.call(rows,function(r){return r.style.display!=="none";});
+ if(!vis){var p=document.createElement("p");p.className="note";
+  p.textContent="All matches in this list have kicked off. New fixtures appear after the next update.";
+  w.replaceWith(p);}});
+var k=document.getElementById("pickcount");
+if(k)k.textContent=document.querySelectorAll("#picks tr[data-ko]:not([style*='none'])").length;
+if(gone){var n=document.createElement("p");n.className="note";
+ n.textContent=gone+" match"+(gone>1?"es that have":" that has")+" already kicked off "+(gone>1?"are":"is")+" hidden.";
+ document.querySelector(".sub").after(n);}
+})();</script></main></body></html>""")
     (C.DOCS / "index.html").write_text("".join(parts), encoding="utf-8")
     (C.DOCS / "backtest.json").write_text(json.dumps(
         {"summary": summary, "thresholds": thr.to_dict("records")}, indent=2, default=str))
