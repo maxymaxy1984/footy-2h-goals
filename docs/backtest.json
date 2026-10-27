@@ -1,47 +1,47 @@
 {
   "summary": {
     "train_matches": 37941,
-    "test_matches": 9245,
+    "test_matches": 9431,
     "test_from": "2025-07-01",
-    "test_to": "2026-10-21",
-    "base_rate": 0.7953488372093023,
-    "brier_model": 0.16200892570222217,
-    "brier_baseline": 0.16301115193630236,
-    "logloss_model": 0.5044197046047535,
-    "logloss_baseline": 0.5075003894428736
+    "test_to": "2026-10-26",
+    "base_rate": 0.7954617749973492,
+    "brier_model": 0.16191391617348933,
+    "brier_baseline": 0.16294795428262898,
+    "logloss_model": 0.50418148638897,
+    "logloss_baseline": 0.507357586260295
   },
   "thresholds": [
     {
       "threshold": 0.8,
-      "picks": 2777,
-      "per_week": 42.9,
-      "hit_rate": 0.8289521065898452,
-      "avg_pred": 0.8186586168480583,
-      "fair_odds_hit": 1.206
-    },
-    {
-      "threshold": 0.82,
-      "picks": 1053,
-      "per_week": 16.3,
-      "hit_rate": 0.8300094966761633,
-      "avg_pred": 0.8339368829778399,
+      "picks": 2854,
+      "per_week": 43.6,
+      "hit_rate": 0.8297126839523475,
+      "avg_pred": 0.818801316227037,
       "fair_odds_hit": 1.205
     },
     {
+      "threshold": 0.82,
+      "picks": 1090,
+      "per_week": 16.7,
+      "hit_rate": 0.8321100917431192,
+      "avg_pred": 0.8340945288261273,
+      "fair_odds_hit": 1.202
+    },
+    {
       "threshold": 0.84,
-      "picks": 249,
-      "per_week": 3.8,
-      "hit_rate": 0.8875502008032129,
-      "avg_pred": 0.8517798142944732,
-      "fair_odds_hit": 1.127
+      "picks": 262,
+      "per_week": 4.0,
+      "hit_rate": 0.8854961832061069,
+      "avg_pred": 0.8518461940646914,
+      "fair_odds_hit": 1.129
     },
     {
       "threshold": 0.86,
-      "picks": 45,
+      "picks": 48,
       "per_week": 0.7,
-      "hit_rate": 0.9333333333333333,
-      "avg_pred": 0.870264224751043,
-      "fair_odds_hit": 1.071
+      "hit_rate": 0.9166666666666666,
+      "avg_pred": 0.8702592956328035,
+      "fair_odds_hit": 1.091
     },
     {
       "threshold": 0.88,
