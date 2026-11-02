@@ -1,4 +1,19 @@
-date,comp_name,home,away,p,fair_odds,logged,g2h,result
-2026-10-31 17:30:00,Germany Bundesliga,Bayern Munich,Dortmund,0.8772924368142261,1.14,2026-10-30,3,WIN
-2026-10-31 17:45:00,Netherlands Eredivisie,PSV Eindhoven,Willem II,0.8833903553070487,1.132,2026-10-30,5,WIN
-2026-11-01 13:30:00,Netherlands Eredivisie,Telstar,Utrecht,0.8666945478565362,1.154,2026-10-30,2,WIN
+date,comp_name,home,away,tier,p,fair_odds,logged,g2h,result
+2026-10-31 17:30:00,Germany Bundesliga,Bayern Munich,Dortmund,Pick,0.8772924368142261,1.14,2026-10-30,3,WIN
+2026-10-31 17:45:00,Netherlands Eredivisie,PSV Eindhoven,Willem II,Pick,0.8833903553070487,1.132,2026-10-30,5,WIN
+2026-11-01 13:30:00,Netherlands Eredivisie,Telstar,Utrecht,Pick,0.8666945478565362,1.154,2026-10-30,2,WIN
+2026-11-02 15:15:00,Spain Segunda,Oviedo,Las Palmas,Next best,0.7635095728467308,1.31,2026-11-02,,
+2026-11-02 16:00:00,Greece Super League,Atromitos,Volos NFC,Next best,0.7637858975310237,1.309,2026-11-02,,
+2026-11-02 17:00:00,Turkey Super Lig,Genclerbirligi,Alanyaspor,Next best,0.7911447584500608,1.264,2026-11-02,,
+2026-11-02 17:30:00,Spain Segunda,Valladolid,Leganes,Next best,0.7654761078347887,1.306,2026-11-02,,
+2026-11-02 17:30:00,Greece Super League,Kalamata,Iraklis,Next best,0.8153034145870556,1.227,2026-11-02,,
+2026-11-02 17:30:00,Italy Serie A,Sassuolo,Fiorentina,Next best,0.8055193667531405,1.241,2026-11-02,,
+2026-11-02 19:45:00,France Ligue 2,Red Star,Nancy,Next best,0.7725635146760365,1.294,2026-11-02,,
+2026-11-02 19:45:00,Italy Serie A,Atalanta,Parma,Next best,0.7766071635721918,1.288,2026-11-02,,
+2026-11-02 19:45:00,France Ligue 2,Reims,Sochaux,Next best,0.7633626739449404,1.31,2026-11-02,,
+2026-11-02 19:45:00,France Ligue 1,Lorient,Brest,Next best,0.8172959562674109,1.224,2026-11-02,,
+2026-11-02 20:00:00,Spain La Liga,La Coruna,Osasuna,Next best,0.8095799597053861,1.235,2026-11-02,,
+2026-11-02 20:00:00,Spain Segunda,Mallorca,Cadiz,Next best,0.76740486258986,1.303,2026-11-02,,
+2026-11-02 20:00:00,England Premier League,Newcastle,Everton,Next best,0.8017133152405309,1.247,2026-11-02,,
+2026-11-02 20:15:00,Portugal Primeira Liga,Benfica,Alverca,Next best,0.8192372500554521,1.221,2026-11-02,,
+2026-11-02 20:15:00,Portugal Primeira Liga,Gil Vicente,Guimaraes,Next best,0.7771819780190524,1.287,2026-11-02,,
