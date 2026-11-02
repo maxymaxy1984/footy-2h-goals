@@ -667,18 +667,39 @@ def score_fixtures(eng, cal, fixtures, hist):
     return out.sort_values(["pick", "p"], ascending=False)
 
 
+WATCH_N = 15   # how many below-threshold matches are shown/logged as "next best"
+
+
 def update_log(scored, hist):
-    cols = ["date", "comp_name", "home", "away", "p", "fair_odds", "logged",
+    cols = ["date", "comp_name", "home", "away", "tier", "p", "fair_odds", "logged",
             "g2h", "result"]
     logdf = (pd.read_csv(LOG_FILE, parse_dates=["date"], dtype={"result": "object"})
              if LOG_FILE.exists() else pd.DataFrame(columns=cols))
+    if "tier" not in logdf.columns:          # logs from before this version
+        logdf["tier"] = "Pick"
+    logdf["tier"] = logdf["tier"].fillna("Pick").astype("object")
     logdf["result"] = logdf["result"].astype("object")
     if not scored.empty:
-        new = scored[scored.pick][["date", "comp_name", "home", "away", "p", "fair_odds"]].copy()
+        shown = pd.concat([scored[scored.pick],
+                           scored[~scored.pick & scored.rated].head(WATCH_N)])
+        new = shown[["date", "comp_name", "home", "away", "p", "fair_odds", "pick"]].copy()
+        new["tier"] = new.pop("pick").map({True: "Pick", False: "Next best"})
         new["logged"] = now().date().isoformat()
-        key = set(zip(logdf.date.astype(str).str[:10], logdf.home, logdf.away))
-        new = new[[(str(d)[:10], h, a) not in key for d, h, a in zip(new.date, new.home, new.away)]]
-        logdf = pd.concat([logdf, new], ignore_index=True)
+        idx = {(str(d)[:10], h, a): i for i, (d, h, a)
+               in enumerate(zip(logdf.date, logdf.home, logdf.away))}
+        add = []
+        for r in new.itertuples(index=False):
+            k = (str(r.date)[:10], r.home, r.away)
+            if k not in idx:
+                add.append(r._asdict())
+            else:   # a "next best" that later became a pick gets upgraded
+                i = logdf.index[idx[k]]
+                if (r.tier == "Pick" and logdf.at[i, "tier"] != "Pick"
+                        and pd.isna(logdf.at[i, "result"])):
+                    logdf.at[i, "tier"] = "Pick"; logdf.at[i, "p"] = r.p
+                    logdf.at[i, "fair_odds"] = r.fair_odds
+        if add:
+            logdf = pd.concat([logdf, pd.DataFrame(add)], ignore_index=True)
     # settle
     h = hist.assign(day=hist.date.dt.date.astype(str),
                     g=(hist.fthg - hist.hthg + hist.ftag - hist.htag))
@@ -690,6 +711,7 @@ def update_log(scored, hist):
                 logdf.at[i, "g2h"] = int(g)
                 logdf.at[i, "result"] = "WIN" if g > 0 else "LOSS"
     logdf["g2h"] = pd.to_numeric(logdf["g2h"], errors="coerce").astype("Int64")
+    logdf["date"] = pd.to_datetime(logdf["date"])
     logdf = logdf[cols].sort_values("date")
     LOG_FILE.parent.mkdir(parents=True, exist_ok=True)
     logdf.to_csv(LOG_FILE, index=False)
@@ -725,6 +747,9 @@ font-weight:600;font-size:13px;text-decoration:none}a.bf:hover{filter:brightness
 #toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:var(--ink);color:var(--bg);
 padding:10px 16px;border-radius:8px;font-size:14px;opacity:0;transition:opacity .2s;pointer-events:none;max-width:90vw}
 #toast.on{opacity:1}
+details.day{margin:8px 0}details.day summary{cursor:pointer;padding:8px 2px;list-style-position:outside}
+.dsum{color:var(--mute);margin-left:10px;font-size:14px}.chip.bt{color:var(--mute)}
+.tog{display:inline-flex;gap:8px;align-items:center;margin-bottom:6px;cursor:pointer}
 """
 
 
@@ -771,15 +796,60 @@ def betfair_link(comp, home, away):
             f'data-match="{name}">Betfair&nbsp;&#8599;</a>')
 
 
-def write_report(scored, summary, thr, calib, by_league, logdf, unmatched, n_hist):
+def results_html(logdf, bt):
+    """Day-by-day results: live log since launch, plus this season's backtest
+    picks for the days before the system went live."""
+    live = logdf[logdf.result.isin(["WIN", "LOSS"])].copy()
+    live["src"] = "live"
+    start = live.date.min() if len(live) else (logdf.date.min() if len(logdf) else now())
+    season0 = pd.Timestamp(F.season_start(now().date()), 7, 1)
+    past = pd.DataFrame()
+    if bt is not None and len(bt):
+        past = bt[(bt.p >= C.PICK_THRESHOLD) & (bt.date >= season0) &
+                  (bt.date.dt.normalize() < pd.Timestamp(start).normalize())].copy()
+        past["tier"] = "Pick"; past["src"] = "backtest"
+        past["result"] = past.y.map({1: "WIN", 0: "LOSS"})
+    allr = pd.concat([live, past], ignore_index=True)
+    if allr.empty:
+        return '<p class="note">Results will appear here as matches finish.</p>'
+    allr["day"] = pd.to_datetime(allr.date).dt.normalize()
+    out = ['<label class="tog"><input type="checkbox" id="shownb"> Include next-best matches</label>',
+           '<div id="totals" class="note"></div>']
+    for n, (day, g) in enumerate(sorted(allr.groupby("day"), key=lambda x: x[0], reverse=True)):
+        rows = []
+        for r in g.sort_values("date").itertuples():
+            tier = "nb" if r.tier == "Next best" else "pick"
+            tag = ('<span class="chip">next best</span>' if tier == "nb" else
+                   '<span class="chip bt">backtest</span>' if r.src == "backtest" else
+                   '<span class="chip">pick</span>')
+            res = r.result
+            rows.append(
+                f'<tr data-tier="{tier}" data-res="{res}"><td>{pd.Timestamp(r.date):%H:%M}</td>'
+                f'<td>{html.escape(str(r.comp_name))}</td><td>{html.escape(r.home)} v {html.escape(r.away)}</td>'
+                f'<td>{tag}</td><td class="n">{r.p*100:.1f}%</td><td class="n">{int(r.g2h)}</td>'
+                f'<td class="{res.lower()}">{res}</td></tr>')
+        out.append(
+            f'<details class="day"{" open" if n < 3 else ""}><summary><b>{day:%a %d %b %Y}</b>'
+            f'<span class="dsum"></span></summary><div class="wrap"><table><thead><tr>'
+            f'<th>Kick-off</th><th>Competition</th><th>Match</th><th>Type</th>'
+            f'<th class="n">P</th><th class="n">2H goals</th><th>Result</th></tr></thead>'
+            f'<tbody>{"".join(rows)}</tbody></table></div></details>')
+    if len(past):
+        out.append(f'<p class="note">Days before {pd.Timestamp(start):%d %b} show what the system would have '
+                   'picked this season (marked "backtest"). Those predictions were made by a model that '
+                   'had not seen these results.</p>')
+    return "".join(out)
+
+
+def write_report(scored, summary, thr, calib, by_league, logdf, unmatched, n_hist, bt=None):
     C.DOCS.mkdir(parents=True, exist_ok=True)
     picks = scored[scored.pick] if not scored.empty else scored
-    watch = scored[~scored.pick & scored.rated].head(15) if not scored.empty else scored
+    watch = scored[~scored.pick & scored.rated].head(WATCH_N) if not scored.empty else scored
     if not scored.empty:
         scored.assign(date=scored.date.dt.strftime("%Y-%m-%d %H:%M"))[
             ["date", "comp_name", "home", "away", "p", "fair_odds", "lam", "hit_h", "hit_a",
              "n_h", "n_a", "pick"]].to_csv(C.DOCS / "fixtures_scored.csv", index=False)
-    settled = logdf[logdf.result.isin(["WIN", "LOSS"])]
+    settled = logdf[logdf.result.isin(["WIN", "LOSS"]) & (logdf.tier == "Pick")]
     live_hit = (settled.result == "WIN").mean() if len(settled) else None
 
     def fx_table(df):
@@ -831,12 +901,8 @@ def write_report(scored, summary, thr, calib, by_league, logdf, unmatched, n_his
              "<h2>Backtest picks by competition</h2>",
              _table(by_league.head(25), [("comp_name", "Competition"), ("picks", "Picks"), ("hit_rate", "Hit rate")],
                     {"hit_rate": pct, "picks": lambda v: f"{int(v):,}"}),
-             "<h2>Live pick log</h2>",
-             _table(logdf.sort_values("date", ascending=False).head(60).assign(
-                 date=lambda d: pd.to_datetime(d.date).dt.strftime("%d %b %H:%M")),
-                 [("date", "Kick-off"), ("comp_name", "Competition"), ("home", "Home"), ("away", "Away"),
-                  ("p", "P"), ("g2h", "2H goals"), ("result", "Result")], {"p": pct})
-             if len(logdf) else '<p class="note">Picks will be logged and settled here automatically.</p>']
+             "<h2>Results, day by day</h2>",
+             results_html(logdf, bt)]
     if unmatched:
         parts.append(f'<p class="note">{len(unmatched)} cup team names not matched to league data (rated from cup games only) — see unmatched.txt.</p>')
     parts.append("""<script>
@@ -857,6 +923,16 @@ document.querySelectorAll("a.bf").forEach(function(a){a.addEventListener("click"
  try{navigator.clipboard.writeText(m);toast.textContent="Copied \u201c"+m+"\u201d \u2014 paste it into Betfair's search box if the match isn't on screen";}
  catch(e){toast.textContent="Look for: "+m;}
  toast.classList.add("on");setTimeout(function(){toast.classList.remove("on");},4000);});});
+function sumUp(){var nb=document.getElementById("shownb");var all=nb&&nb.checked;
+ var W=0,L=0;document.querySelectorAll("details.day").forEach(function(d){
+  var w=0,l=0,v=0;d.querySelectorAll("tr[data-tier]").forEach(function(r){
+   var show=all||r.dataset.tier==="pick";r.style.display=show?"":"none";
+   if(show){v++;if(r.dataset.res==="WIN")w++;else l++;}});
+  d.style.display=v?"":"none";W+=w;L+=l;
+  d.querySelector(".dsum").textContent=v+" match"+(v>1?"es":"")+" \u00b7 "+w+" won \u00b7 "+Math.round(100*w/v)+"%";});
+ var t=document.getElementById("totals");
+ if(t)t.textContent=(W+L)?"Total: "+(W+L)+" matches, "+W+" won ("+(100*W/(W+L)).toFixed(1)+"%)":"";}
+var nbx=document.getElementById("shownb");if(nbx){nbx.addEventListener("change",sumUp);}sumUp();
 if(gone){var n=document.createElement("p");n.className="note";
  n.textContent=gone+" match"+(gone>1?"es that have":" that has")+" already kicked off "+(gone>1?"are":"is")+" hidden.";
  document.querySelector(".sub").after(n);}
@@ -884,14 +960,14 @@ def main():
         raise SystemExit("No historical data downloaded — check network / sources.")
     log.info("history: %d matches, fixtures: %d", len(hist), len(fixtures))
     eng, oos = walk_forward(hist)
-    summary, thr, calib, by_league, _ = backtest(oos)
+    summary, thr, calib, by_league, bt = backtest(oos)
     log.info("backtest: %s", summary)
     live = eligible(oos)
     live = live[live.date >= live.date.min() + pd.Timedelta(days=330)]
     cal = Calibrator().fit(live)
     scored = score_fixtures(eng, cal, fixtures, hist)
     logdf = update_log(scored, hist)
-    write_report(scored, summary, thr, calib, by_league, logdf, unmatched, len(hist))
+    write_report(scored, summary, thr, calib, by_league, logdf, unmatched, len(hist), bt)
     picks = scored[scored.pick] if not scored.empty else scored
     log.info("picks: %d", len(picks))
     telegram(picks)
