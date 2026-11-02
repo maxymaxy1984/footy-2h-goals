@@ -720,6 +720,11 @@ tr:last-child td{border-bottom:0}td.n{text-align:right}th.n{text-align:right}
 .pick td{background:var(--chip)}.win{color:var(--good);font-weight:600}.loss{color:var(--bad);font-weight:600}
 .chip{display:inline-block;padding:1px 8px;border-radius:99px;background:var(--chip);color:var(--accent);font-size:12px}
 .note{color:var(--mute);font-size:13px;margin-top:8px}
+a.bf{display:inline-block;padding:3px 10px;border-radius:6px;background:#ffb80c;color:#1b1d1f;
+font-weight:600;font-size:13px;text-decoration:none}a.bf:hover{filter:brightness(.92)}
+#toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:var(--ink);color:var(--bg);
+padding:10px 16px;border-radius:8px;font-size:14px;opacity:0;transition:opacity .2s;pointer-events:none;max-width:90vw}
+#toast.on{opacity:1}
 """
 
 
@@ -734,6 +739,8 @@ def _table(df, cols, fmt=None, row_cls=None, row_attr=None):
             v = r[c]
             if c in fmt and pd.notna(v):
                 tds.append(f'<td class="n">{fmt[c](v)}</td>')
+            elif c == "bf":
+                tds.append(f"<td>{v}</td>")
             elif c == "result" and isinstance(v, str):
                 tds.append(f'<td class="{v.lower()}">{v}</td>')
             else:
@@ -744,6 +751,24 @@ def _table(df, cols, fmt=None, row_cls=None, row_attr=None):
 
 
 pct = lambda v: f"{v*100:.1f}%"
+
+# Betfair Exchange competition IDs (edit/add if a link opens the wrong page)
+BETFAIR_COMP = {
+    "E0": 10932509, "E1": 7129730, "E2": 35, "E3": 37, "SC0": 105,
+    "D1": 59, "D2": 61, "I1": 81, "I2": 12199689, "SP1": 117, "SP2": 12204313,
+    "F1": 55, "F2": 57, "N1": 9404054, "B1": 89979, "P1": 99, "T1": 194215,
+    "G1": 67387, "CL": 228, "AF3": 2005,
+}
+BETFAIR_FOOTBALL = "https://www.betfair.com/exchange/plus/en/football-betting-1"
+
+
+def betfair_link(comp, home, away):
+    cid = BETFAIR_COMP.get(comp)
+    url = (f"https://www.betfair.com/exchange/plus/football/competition/{cid}"
+           if cid else BETFAIR_FOOTBALL)
+    name = html.escape(f"{home} v {away}", quote=True)
+    return (f'<a class="bf" href="{url}" target="_blank" rel="noopener" '
+            f'data-match="{name}">Betfair&nbsp;&#8599;</a>')
 
 
 def write_report(scored, summary, thr, calib, by_league, logdf, unmatched, n_hist):
@@ -766,9 +791,10 @@ def write_report(scored, summary, thr, calib, by_league, logdf, unmatched, n_his
                   ts.tz_localize("Europe/London", ambiguous=True, nonexistent="shift_forward"))
             ko.append(ts)
         d = df.assign(when=[t.tz_convert("Europe/London").strftime("%a %d %b %H:%M") for t in ko],
-                      ko_ms=[int(t.timestamp() * 1000) for t in ko])
+                      ko_ms=[int(t.timestamp() * 1000) for t in ko],
+                      bf=[betfair_link(c, h, a) for c, h, a in zip(df.comp, df.home, df.away)])
         return _table(d, [("when", "Kick-off (UK)"), ("comp_name", "Competition"), ("home", "Home"),
-                          ("away", "Away"), ("p", "P(2H goal)"), ("fair_odds", "Fair odds"),
+                          ("away", "Away"), ("bf", "Exchange"), ("p", "P(2H goal)"), ("fair_odds", "Fair odds"),
                           ("lam", "Exp. 2H goals"), ("hit_h", "Home 2H-goal rate"), ("hit_a", "Away 2H-goal rate")],
                       {"p": pct, "fair_odds": lambda v: f"{v:.2f}", "lam": lambda v: f"{v:.2f}",
                        "hit_h": pct, "hit_a": pct},
@@ -825,6 +851,12 @@ document.querySelectorAll(".wrap").forEach(function(w){
   w.replaceWith(p);}});
 var k=document.getElementById("pickcount");
 if(k)k.textContent=document.querySelectorAll("#picks tr[data-ko]:not([style*='none'])").length;
+var toast=document.createElement("div");toast.id="toast";document.body.appendChild(toast);
+document.querySelectorAll("a.bf").forEach(function(a){a.addEventListener("click",function(){
+ var m=a.dataset.match;
+ try{navigator.clipboard.writeText(m);toast.textContent="Copied \u201c"+m+"\u201d \u2014 paste it into Betfair's search box if the match isn't on screen";}
+ catch(e){toast.textContent="Look for: "+m;}
+ toast.classList.add("on");setTimeout(function(){toast.classList.remove("on");},4000);});});
 if(gone){var n=document.createElement("p");n.className="note";
  n.textContent=gone+" match"+(gone>1?"es that have":" that has")+" already kicked off "+(gone>1?"are":"is")+" hidden.";
  document.querySelector(".sub").after(n);}
