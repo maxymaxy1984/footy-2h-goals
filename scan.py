@@ -284,6 +284,75 @@ def fetch_apif_cups(seasons_back=3):
     return pd.DataFrame(rows, columns=COLS)
 
 
+# ---------------------------------------------------------------------------
+# ESPN public scoreboard  (Champions / Europa / Conference League; no key)
+# ---------------------------------------------------------------------------
+ESPN_CUPS = {"uefa.champions": ("UCL", "UEFA Champions League"),
+             "uefa.europa": ("UEL", "UEFA Europa League"),
+             "uefa.europa.conf": ("UECL", "UEFA Conference League")}
+ESPN_BASE = "https://site.api.espn.com/apis/site/v2/sports/soccer/{}/scoreboard"
+
+
+def _espn_rows(payload, code, name):
+    rows = []
+    for e in payload.get("events", []) or []:
+        try:
+            comp = e["competitions"][0]
+            teams = {t.get("homeAway"): t for t in comp["competitors"]}
+            h, a = teams["home"], teams["away"]
+            st = (e.get("status") or comp.get("status") or {}).get("type", {})
+            done = bool(st.get("completed"))
+            row = {"date": pd.to_datetime(e["date"], utc=True).tz_convert(None),
+                   "comp": code, "comp_name": name, "kind": "cup",
+                   "home": h["team"].get("displayName") or h["team"].get("name"),
+                   "away": a["team"].get("displayName") or a["team"].get("name"),
+                   "hthg": None, "htag": None, "fthg": None, "ftag": None}
+            if done:
+                lh = [float(x.get("value", 0)) for x in h.get("linescores") or []]
+                la = [float(x.get("value", 0)) for x in a.get("linescores") or []]
+                if len(lh) >= 2 and len(la) >= 2:     # halves only -> 90-min score
+                    row.update(hthg=lh[0], htag=la[0], fthg=lh[0] + lh[1], ftag=la[0] + la[1])
+                else:
+                    continue   # finished but no half-time split: not usable
+            elif st.get("state") not in (None, "pre"):
+                continue       # live / postponed
+            rows.append(row)
+        except (KeyError, IndexError, TypeError, ValueError):
+            continue
+    return rows
+
+
+def fetch_espn_cups(seasons_back=3):
+    if os.getenv("H2_NO_ESPN"):
+        return pd.DataFrame(columns=COLS)
+    cur, t = season_start(), today()
+    rows = []
+    for slug, (code, name) in ESPN_CUPS.items():
+        for start in range(cur - seasons_back + 1, cur + 1):
+            for m in range(12):                       # month by month, Jul..Jun
+                y, mo = start + (6 + m) // 12, (6 + m) % 12 + 1
+                first = date(y, mo, 1)
+                if first > t + pd.Timedelta(days=40):
+                    break
+                last = (pd.Timestamp(first) + pd.offsets.MonthEnd(0)).date()
+                path = C.RAW / "espn" / slug / f"{first:%Y%m}.json"
+                fresh = last >= t - pd.Timedelta(days=3)  # refresh recent/upcoming months
+
+                def go(slug=slug, first=first, last=last):
+                    r = _get(ESPN_BASE.format(slug),
+                             params={"dates": f"{first:%Y%m%d}-{last:%Y%m%d}", "limit": 1000})
+                    return r and r.content
+                raw = _cached(path, go, refresh=fresh)
+                if raw:
+                    try:
+                        rows += _espn_rows(json.loads(raw), code, name)
+                    except ValueError:
+                        log.warning("ESPN %s %s: bad JSON", slug, first)
+    df = pd.DataFrame(rows, columns=COLS)
+    log.info("ESPN cups: %d matches (%d upcoming)", len(df), int(df.fthg.isna().sum()) if len(df) else 0)
+    return df
+
+
 def split_cups(cups: pd.DataFrame):
     """Return (finished cup matches, upcoming cup fixtures)."""
     if cups.empty:
@@ -628,10 +697,15 @@ def now():
 def gather():
     hist = F.fetch_league_history()
     fx = F.fetch_league_fixtures()
-    cups = pd.concat([F.fetch_fdorg_cups(), F.fetch_apif_cups()], ignore_index=True)
+    cups = pd.concat([F.fetch_espn_cups(), F.fetch_fdorg_cups(), F.fetch_apif_cups()],
+                     ignore_index=True)
     match = Matcher(hist["home"].tolist() + hist["away"].tolist())
     if not cups.empty:
         cups["home"] = cups["home"].map(match); cups["away"] = cups["away"].map(match)
+    if not cups.empty:   # same match from two sources -> keep the first
+        cups["date"] = pd.to_datetime(cups["date"])
+        cups = (cups.assign(_d=cups.date.dt.date)
+                    .drop_duplicates(subset=["_d", "home", "away"]).drop(columns="_d"))
     cup_done, cup_fx = F.split_cups(cups)
     hist = pd.concat([hist, cup_done], ignore_index=True)
     hist = hist.drop_duplicates(subset=["date", "home", "away"])
@@ -782,7 +856,7 @@ BETFAIR_COMP = {
     "E0": 10932509, "E1": 7129730, "E2": 35, "E3": 37, "SC0": 105,
     "D1": 59, "D2": 61, "I1": 81, "I2": 12199689, "SP1": 117, "SP2": 12204313,
     "F1": 55, "F2": 57, "N1": 9404054, "B1": 89979, "P1": 99, "T1": 194215,
-    "G1": 67387, "CL": 228, "AF3": 2005,
+    "G1": 67387, "CL": 228, "UCL": 228, "AF3": 2005, "UEL": 2005,
 }
 BETFAIR_FOOTBALL = "https://www.betfair.com/exchange/plus/en/football-betting-1"
 
@@ -1023,6 +1097,57 @@ Olympiacos,Olympiakos
 Olympiakos Piraeus,Olympiakos
 AEK Athens,AEK
 PSV,PSV Eindhoven
+Internazionale,Inter
+Tottenham Hotspur,Tottenham
+Newcastle United,Newcastle
+Borussia Dortmund,Dortmund
+Olympique Lyonnais,Lyon
+Olympique de Marseille,Marseille
+Marseille,Marseille
+AS Monaco,Monaco
+OGC Nice,Nice
+Stade Rennais,Rennes
+RC Lens,Lens
+Lille OSC,Lille
+LOSC Lille,Lille
+AS Roma,Roma
+SS Lazio,Lazio
+Napoli,Napoli
+Atalanta,Atalanta
+Juventus,Juventus
+Fiorentina,Fiorentina
+SC Freiburg,Freiburg
+VfB Stuttgart,Stuttgart
+TSG Hoffenheim,Hoffenheim
+1899 Hoffenheim,Hoffenheim
+FSV Mainz 05,Mainz
+Mainz,Mainz
+RB Leipzig,RB Leipzig
+Union Berlin,Union Berlin
+VfL Wolfsburg,Wolfsburg
+FC Porto,Porto
+Benfica,Benfica
+SL Benfica,Benfica
+AZ Alkmaar,AZ Alkmaar
+FC Twente,Twente
+Union St.-Gilloise,St. Gilloise
+Club Brugge,Club Brugge
+Anderlecht,Anderlecht
+KRC Genk,Genk
+Celtic,Celtic
+Rangers,Rangers
+Aston Villa,Aston Villa
+Nottingham Forest,Nott'm Forest
+Crystal Palace,Crystal Palace
+Fenerbahce,Fenerbahce
+Galatasaray,Galatasaray
+Besiktas,Besiktas
+PAOK Salonika,PAOK
+PAOK,PAOK
+Panathinaikos,Panathinaikos
+Real Betis,Betis
+Celta Vigo,Celta
+Villarreal,Villarreal
 """
 _load_file_aliases = load_aliases
 
