@@ -1,28 +1,28 @@
 {
   "summary": {
     "train_matches": 37941,
-    "test_matches": 9657,
+    "test_matches": 9672,
     "test_from": "2025-07-01",
-    "test_to": "2026-11-01",
-    "base_rate": 0.7965206585896241,
-    "brier_model": 0.16134254385509147,
-    "brier_baseline": 0.16235542489364108,
-    "logloss_model": 0.5028939606291448,
-    "logloss_baseline": 0.5060186903108351
+    "test_to": "2026-11-02",
+    "base_rate": 0.7966294458229942,
+    "brier_model": 0.16127502320727294,
+    "brier_baseline": 0.16229454980464286,
+    "logloss_model": 0.5027361627528647,
+    "logloss_baseline": 0.5058811352602376
   },
   "thresholds": [
     {
       "threshold": 0.8,
-      "picks": 2958,
+      "picks": 2963,
       "per_week": 44.6,
-      "hit_rate": 0.8289384719405003,
-      "avg_pred": 0.8189109651978819,
+      "hit_rate": 0.8292271346608168,
+      "avg_pred": 0.8188976081311296,
       "fair_odds_hit": 1.206
     },
     {
       "threshold": 0.82,
       "picks": 1137,
-      "per_week": 17.2,
+      "per_week": 17.1,
       "hit_rate": 0.832014072119613,
       "avg_pred": 0.8342457393001527,
       "fair_odds_hit": 1.202
