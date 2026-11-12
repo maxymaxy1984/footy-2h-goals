@@ -15,8 +15,9 @@ date,comp_name,home,away,tier,p,fair_odds,logged,g2h,result
 2026-11-02 20:00:00,England Premier League,Newcastle,Everton,Next best,0.8017133152405309,1.247,2026-11-02,1,WIN
 2026-11-02 20:00:00,Spain Segunda,Mallorca,Cadiz,Next best,0.76740486258986,1.303,2026-11-02,3,WIN
 2026-11-02 20:00:00,Spain La Liga,La Coruna,Osasuna,Next best,0.8095799597053861,1.235,2026-11-02,2,WIN
-2026-11-02 20:15:00,Portugal Primeira Liga,Benfica,Alverca,Next best,0.8192372500554521,1.221,2026-11-02,1,WIN
 2026-11-02 20:15:00,Portugal Primeira Liga,Gil Vicente,Guimaraes,Next best,0.7771819780190524,1.287,2026-11-02,0,LOSS
+2026-11-02 20:15:00,Portugal Primeira Liga,Benfica,Alverca,Next best,0.8192372500554521,1.221,2026-11-02,1,WIN
+2026-11-03 19:45:00,England League One,Wigan,Mansfield,Next best,0.7765944272143834,1.288,2026-11-03,0,LOSS
 2026-11-03 19:45:00,England Championship,Portsmouth,Swansea,Next best,0.7669241101626839,1.304,2026-11-03,3,WIN
 2026-11-03 19:45:00,England League Two,Northampton,Oldham,Next best,0.7483525430137541,1.336,2026-11-03,1,WIN
 2026-11-03 19:45:00,England Championship,Blackburn,Stoke,Next best,0.7588622526300115,1.318,2026-11-03,2,WIN
@@ -24,7 +25,6 @@ date,comp_name,home,away,tier,p,fair_odds,logged,g2h,result
 2026-11-03 19:45:00,England Championship,Derby,Norwich,Next best,0.7727445219025048,1.294,2026-11-03,1,WIN
 2026-11-03 19:45:00,England Championship,Charlton,Bolton,Next best,0.7753182963680275,1.29,2026-11-03,0,LOSS
 2026-11-03 19:45:00,England Championship,Watford,Lincoln,Next best,0.7706389353628698,1.298,2026-11-03,1,WIN
-2026-11-03 19:45:00,England League One,Wigan,Mansfield,Next best,0.7765944272143834,1.288,2026-11-03,0,LOSS
 2026-11-03 19:45:00,England Championship,QPR,Burnley,Next best,0.7890807563380949,1.267,2026-11-03,1,WIN
 2026-11-03 20:00:00,England Championship,West Brom,Southampton,Next best,0.7828888746305822,1.277,2026-11-03,1,WIN
 2026-11-03 20:00:00,England Championship,Birmingham,Millwall,Next best,0.7653120971486741,1.307,2026-11-03,0,LOSS
@@ -33,10 +33,10 @@ date,comp_name,home,away,tier,p,fair_odds,logged,g2h,result
 2026-11-04 20:00:00,England Championship,Bristol City,Wolves,Next best,0.7576990005198029,1.32,2026-11-03,2,WIN
 2026-11-06 19:00:00,Netherlands Eredivisie,Willem II,Zwolle,Next best,0.8517863901397121,1.174,2026-11-06,0,LOSS
 2026-11-06 19:30:00,Germany Bundesliga,Hamburg,M'gladbach,Next best,0.833654458866144,1.2,2026-11-06,2,WIN
-2026-11-07 14:30:00,Germany Bundesliga,Paderborn,Ein Frankfurt,Next best,0.8325132324436124,1.201,2026-11-07,2,WIN
-2026-11-07 14:30:00,Germany Bundesliga,Dortmund,Elversberg,Pick,0.8600814439675719,1.163,2026-11-06,3,WIN
-2026-11-07 14:30:00,Germany Bundesliga,RB Leipzig,Augsburg,Next best,0.8578578984148832,1.166,2026-11-06,3,WIN
 2026-11-07 14:30:00,Germany Bundesliga,Mainz,Bayern Munich,Pick,0.8691474831887201,1.151,2026-11-06,2,WIN
+2026-11-07 14:30:00,Germany Bundesliga,RB Leipzig,Augsburg,Next best,0.8578578984148832,1.166,2026-11-06,3,WIN
+2026-11-07 14:30:00,Germany Bundesliga,Dortmund,Elversberg,Pick,0.8600814439675719,1.163,2026-11-06,3,WIN
+2026-11-07 14:30:00,Germany Bundesliga,Paderborn,Ein Frankfurt,Next best,0.8325132324436124,1.201,2026-11-07,2,WIN
 2026-11-07 15:00:00,Scotland League One,Ross County,Peterhead,Next best,0.8370911871465583,1.195,2026-11-06,4,WIN
 2026-11-07 15:00:00,Scotland League Two,Clyde,Spartans,Next best,0.8363426610110152,1.196,2026-11-06,2,WIN
 2026-11-07 15:30:00,Netherlands Eredivisie,For Sittard,Telstar,Next best,0.8361395098091015,1.196,2026-11-06,0,LOSS
@@ -53,8 +53,8 @@ date,comp_name,home,away,tier,p,fair_odds,logged,g2h,result
 2026-11-08 13:30:00,Netherlands Eredivisie,Twente,Ajax,Next best,0.841414064242623,1.188,2026-11-06,3,WIN
 2026-11-08 14:30:00,Germany Bundesliga,FC Koln,Leverkusen,Next best,0.8428164816262229,1.186,2026-11-06,2,WIN
 2026-11-08 15:15:00,Spain La Liga,Sociedad,Vallecano,Next best,0.7974216845845615,1.254,2026-11-08,1,WIN
-2026-11-08 15:45:00,Netherlands Eredivisie,AZ Alkmaar,Groningen,Next best,0.8372879252608373,1.194,2026-11-06,5,WIN
 2026-11-08 15:45:00,Netherlands Eredivisie,Cambuur,PSV Eindhoven,Pick,0.8723802269698065,1.146,2026-11-06,3,WIN
+2026-11-08 15:45:00,Netherlands Eredivisie,AZ Alkmaar,Groningen,Next best,0.8372879252608373,1.194,2026-11-06,5,WIN
 2026-11-08 16:00:00,Scotland Premiership,Celtic,Kilmarnock,Next best,0.809131114303757,1.236,2026-11-08,0,LOSS
 2026-11-08 16:15:00,France Ligue 1,Le Mans,Monaco,Next best,0.8323426872600936,1.201,2026-11-07,1,WIN
 2026-11-08 16:15:00,France Ligue 1,Brest,Lyon,Next best,0.8062496610429832,1.24,2026-11-08,1,WIN
@@ -70,6 +70,6 @@ date,comp_name,home,away,tier,p,fair_odds,logged,g2h,result
 2026-11-08 19:45:00,France Ligue 1,Lens,Marseille,Next best,0.844528279405485,1.184,2026-11-06,1,WIN
 2026-11-08 19:45:00,Italy Serie A,Fiorentina,Juventus,Next best,0.7857378944888208,1.273,2026-11-08,2,WIN
 2026-11-08 20:00:00,Spain La Liga,Ath Madrid,Barcelona,Next best,0.8354647675970099,1.197,2026-11-06,1,WIN
-2026-11-08 20:30:00,Portugal Primeira Liga,Estrela,Benfica,Next best,0.8196898314333555,1.22,2026-11-08,4,WIN
 2026-11-08 20:30:00,Portugal Primeira Liga,Rio Ave,Sp Braga,Next best,0.7960653976600058,1.256,2026-11-08,1,WIN
+2026-11-08 20:30:00,Portugal Primeira Liga,Estrela,Benfica,Next best,0.8196898314333555,1.22,2026-11-08,4,WIN
 2026-11-09 19:30:00,Spain Segunda,Sabadell,Sociedad B,Next best,0.7653897188015305,1.307,2026-11-08,0,LOSS
