@@ -1,46 +1,46 @@
 {
   "summary": {
     "train_matches": 37941,
-    "test_matches": 9849,
+    "test_matches": 9899,
     "test_from": "2025-07-01",
-    "test_to": "2026-11-09",
-    "base_rate": 0.7968321657021017,
-    "brier_model": 0.1611664049296996,
-    "brier_baseline": 0.16218111194709217,
-    "logloss_model": 0.5024901382087122,
-    "logloss_baseline": 0.5056248079103833
+    "test_to": "2026-11-15",
+    "base_rate": 0.7973532680068693,
+    "brier_model": 0.16085929756753126,
+    "brier_baseline": 0.16188951385973224,
+    "logloss_model": 0.5017777119986365,
+    "logloss_baseline": 0.5049659047314147
   },
   "thresholds": [
     {
       "threshold": 0.8,
-      "picks": 3029,
-      "per_week": 44.9,
-      "hit_rate": 0.8293166061406405,
-      "avg_pred": 0.8190168827215987,
-      "fair_odds_hit": 1.206
+      "picks": 3051,
+      "per_week": 44.7,
+      "hit_rate": 0.8302196001311045,
+      "avg_pred": 0.8190212990016029,
+      "fair_odds_hit": 1.205
     },
     {
       "threshold": 0.82,
-      "picks": 1172,
-      "per_week": 17.4,
-      "hit_rate": 0.8336177474402731,
-      "avg_pred": 0.8343485010970402,
-      "fair_odds_hit": 1.2
+      "picks": 1183,
+      "per_week": 17.3,
+      "hit_rate": 0.8351648351648352,
+      "avg_pred": 0.8343164701855553,
+      "fair_odds_hit": 1.197
     },
     {
       "threshold": 0.84,
-      "picks": 291,
+      "picks": 293,
       "per_week": 4.3,
-      "hit_rate": 0.8865979381443299,
-      "avg_pred": 0.8519459225987404,
-      "fair_odds_hit": 1.128
+      "hit_rate": 0.8873720136518771,
+      "avg_pred": 0.8519022716161399,
+      "fair_odds_hit": 1.127
     },
     {
       "threshold": 0.86,
       "picks": 54,
       "per_week": 0.8,
       "hit_rate": 0.9074074074074074,
-      "avg_pred": 0.8703013047750153,
+      "avg_pred": 0.870301304775023,
       "fair_odds_hit": 1.102
     },
     {
@@ -48,7 +48,7 @@
       "picks": 13,
       "per_week": 0.2,
       "hit_rate": 1.0,
-      "avg_pred": 0.8825810677059583,
+      "avg_pred": 0.8825810677059696,
       "fair_odds_hit": 1.0
     },
     {
