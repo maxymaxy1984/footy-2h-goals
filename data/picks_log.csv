@@ -12,9 +12,9 @@ date,comp_name,home,away,tier,p,fair_odds,logged,g2h,result
 2026-11-02 19:45:00,France Ligue 2,Reims,Sochaux,Next best,0.7633626739449404,1.31,2026-11-02,0,LOSS
 2026-11-02 19:45:00,Italy Serie A,Atalanta,Parma,Next best,0.7766071635721918,1.288,2026-11-02,2,WIN
 2026-11-02 19:45:00,France Ligue 2,Red Star,Nancy,Next best,0.7725635146760365,1.294,2026-11-02,2,WIN
-2026-11-02 20:00:00,Spain Segunda,Mallorca,Cadiz,Next best,0.76740486258986,1.303,2026-11-02,3,WIN
-2026-11-02 20:00:00,England Premier League,Newcastle,Everton,Next best,0.8017133152405309,1.247,2026-11-02,1,WIN
 2026-11-02 20:00:00,Spain La Liga,La Coruna,Osasuna,Next best,0.8095799597053861,1.235,2026-11-02,2,WIN
+2026-11-02 20:00:00,England Premier League,Newcastle,Everton,Next best,0.8017133152405309,1.247,2026-11-02,1,WIN
+2026-11-02 20:00:00,Spain Segunda,Mallorca,Cadiz,Next best,0.76740486258986,1.303,2026-11-02,3,WIN
 2026-11-02 20:15:00,Portugal Primeira Liga,Gil Vicente,Guimaraes,Next best,0.7771819780190524,1.287,2026-11-02,0,LOSS
 2026-11-02 20:15:00,Portugal Primeira Liga,Benfica,Alverca,Next best,0.8192372500554521,1.221,2026-11-02,1,WIN
 2026-11-03 19:45:00,England League One,Wigan,Mansfield,Next best,0.7765944272143834,1.288,2026-11-03,0,LOSS
@@ -28,8 +28,8 @@ date,comp_name,home,away,tier,p,fair_odds,logged,g2h,result
 2026-11-03 19:45:00,England Championship,Portsmouth,Swansea,Next best,0.7669241101626839,1.304,2026-11-03,3,WIN
 2026-11-03 20:00:00,England Championship,West Brom,Southampton,Next best,0.7828888746305822,1.277,2026-11-03,1,WIN
 2026-11-03 20:00:00,England Championship,Birmingham,Millwall,Next best,0.7653120971486741,1.307,2026-11-03,0,LOSS
-2026-11-04 19:45:00,England Championship,Cardiff,West Ham,Next best,0.7785172966288662,1.284,2026-11-03,3,WIN
 2026-11-04 19:45:00,England Championship,Wrexham,Middlesbrough,Next best,0.8004649404077191,1.249,2026-11-03,2,WIN
+2026-11-04 19:45:00,England Championship,Cardiff,West Ham,Next best,0.7785172966288662,1.284,2026-11-03,3,WIN
 2026-11-04 20:00:00,England Championship,Bristol City,Wolves,Next best,0.7576990005198029,1.32,2026-11-03,2,WIN
 2026-11-06 19:00:00,Netherlands Eredivisie,Willem II,Zwolle,Next best,0.8517863901397121,1.174,2026-11-06,0,LOSS
 2026-11-06 19:30:00,Germany Bundesliga,Hamburg,M'gladbach,Next best,0.833654458866144,1.2,2026-11-06,2,WIN
@@ -60,8 +60,8 @@ date,comp_name,home,away,tier,p,fair_odds,logged,g2h,result
 2026-11-08 16:15:00,France Ligue 1,Brest,Lyon,Next best,0.8062496610429832,1.24,2026-11-08,1,WIN
 2026-11-08 16:30:00,England Premier League,Man United,Aston Villa,Next best,0.8232229420655491,1.215,2026-11-08,4,WIN
 2026-11-08 16:30:00,Germany Bundesliga,Freiburg,Union Berlin,Next best,0.8440236237758092,1.185,2026-11-06,2,WIN
-2026-11-08 17:30:00,Spain La Liga,Celta,Levante,Next best,0.8029309182622634,1.245,2026-11-08,0,LOSS
 2026-11-08 17:30:00,Belgium Pro League,St. Gilloise,Genk,Next best,0.8069225253402995,1.239,2026-11-08,1,WIN
+2026-11-08 17:30:00,Spain La Liga,Celta,Levante,Next best,0.8029309182622634,1.245,2026-11-08,0,LOSS
 2026-11-08 18:15:00,Belgium Pro League,St Truiden,Waregem,Next best,0.8223429243844568,1.216,2026-11-08,2,WIN
 2026-11-08 18:30:00,Italy Serie B,Vicenza,Cremonese,Next best,0.758635579000348,1.318,2026-11-08,3,WIN
 2026-11-08 18:30:00,Germany Bundesliga,Hoffenheim,Schalke 04,Next best,0.8256903624088295,1.211,2026-11-07,1,WIN
@@ -70,29 +70,29 @@ date,comp_name,home,away,tier,p,fair_odds,logged,g2h,result
 2026-11-08 19:45:00,France Ligue 1,Lens,Marseille,Next best,0.844528279405485,1.184,2026-11-06,1,WIN
 2026-11-08 19:45:00,Italy Serie A,Fiorentina,Juventus,Next best,0.7857378944888208,1.273,2026-11-08,2,WIN
 2026-11-08 20:00:00,Spain La Liga,Ath Madrid,Barcelona,Next best,0.8354647675970099,1.197,2026-11-06,1,WIN
-2026-11-08 20:30:00,Portugal Primeira Liga,Estrela,Benfica,Next best,0.8196898314333555,1.22,2026-11-08,4,WIN
 2026-11-08 20:30:00,Portugal Primeira Liga,Rio Ave,Sp Braga,Next best,0.7960653976600058,1.256,2026-11-08,1,WIN
+2026-11-08 20:30:00,Portugal Primeira Liga,Estrela,Benfica,Next best,0.8196898314333555,1.22,2026-11-08,4,WIN
 2026-11-09 19:30:00,Spain Segunda,Sabadell,Sociedad B,Next best,0.7653897188015305,1.307,2026-11-08,0,LOSS
-2026-11-14 15:00:00,England League One,Stockport,Reading,Next best,0.822049802115391,1.216,2026-11-13,1,WIN
-2026-11-14 15:00:00,England National League,Harrogate,Altrincham,Next best,0.8282785534686672,1.207,2026-11-13,4,WIN
-2026-11-14 15:00:00,England National League,Hornchurch,Tamworth,Next best,0.8158948110922052,1.226,2026-11-13,1,WIN
-2026-11-14 15:00:00,Scotland League One,East Kilbride,Alloa,Next best,0.8155056104486976,1.226,2026-11-13,3,WIN
-2026-11-14 15:00:00,England National League,Eastleigh,Fylde,Next best,0.825358343506621,1.212,2026-11-13,2,WIN
-2026-11-14 15:00:00,Scotland League Two,Dumbarton,Annan Athletic,Next best,0.8144422704697442,1.228,2026-11-13,2,WIN
-2026-11-14 15:00:00,England National League,Sutton,Solihull,Next best,0.8237133227916238,1.214,2026-11-13,1,WIN
-2026-11-14 15:00:00,Scotland League Two,Edinburgh City,Clyde,Next best,0.8286742244471155,1.207,2026-11-13,4,WIN
-2026-11-14 15:00:00,England National League,Scunthorpe,Worthing,Next best,0.8456498932568857,1.183,2026-11-13,1,WIN
-2026-11-14 15:00:00,England National League,Yeovil,Boreham Wood,Next best,0.8488791877188204,1.178,2026-11-13,1,WIN
-2026-11-14 15:00:00,England National League,Southend,Aldershot,Next best,0.833616009340412,1.2,2026-11-13,2,WIN
-2026-11-14 15:00:00,England National League,Carlisle,Boston Utd,Next best,0.8410083314693112,1.189,2026-11-13,1,WIN
-2026-11-14 15:00:00,England National League,Hartlepool,Wealdstone,Next best,0.8294208370627292,1.206,2026-11-13,2,WIN
 2026-11-14 15:00:00,England National League,Gateshead,Barrow,Next best,0.8360500285748141,1.196,2026-11-13,2,WIN
+2026-11-14 15:00:00,England National League,Hartlepool,Wealdstone,Next best,0.8294208370627292,1.206,2026-11-13,2,WIN
+2026-11-14 15:00:00,England National League,Carlisle,Boston Utd,Next best,0.8410083314693112,1.189,2026-11-13,1,WIN
+2026-11-14 15:00:00,England National League,Southend,Aldershot,Next best,0.833616009340412,1.2,2026-11-13,2,WIN
+2026-11-14 15:00:00,England National League,Yeovil,Boreham Wood,Next best,0.8488791877188204,1.178,2026-11-13,1,WIN
+2026-11-14 15:00:00,England National League,Scunthorpe,Worthing,Next best,0.8456498932568857,1.183,2026-11-13,1,WIN
+2026-11-14 15:00:00,Scotland League Two,Edinburgh City,Clyde,Next best,0.8286742244471155,1.207,2026-11-13,4,WIN
+2026-11-14 15:00:00,England National League,Hornchurch,Tamworth,Next best,0.8158948110922052,1.226,2026-11-13,1,WIN
+2026-11-14 15:00:00,Scotland League Two,Dumbarton,Annan Athletic,Next best,0.8144422704697442,1.228,2026-11-13,2,WIN
+2026-11-14 15:00:00,England National League,Eastleigh,Fylde,Next best,0.825358343506621,1.212,2026-11-13,2,WIN
+2026-11-14 15:00:00,Scotland League One,East Kilbride,Alloa,Next best,0.8155056104486976,1.226,2026-11-13,3,WIN
+2026-11-14 15:00:00,England National League,Harrogate,Altrincham,Next best,0.8282785534686672,1.207,2026-11-13,4,WIN
+2026-11-14 15:00:00,England League One,Stockport,Reading,Next best,0.822049802115391,1.216,2026-11-13,1,WIN
+2026-11-14 15:00:00,England National League,Sutton,Solihull,Next best,0.8237133227916238,1.214,2026-11-13,1,WIN
 2026-11-14 17:30:00,Spain Segunda,Almeria,Andorra,Next best,0.8141723320879278,1.228,2026-11-13,1,WIN
 2026-11-14 20:00:00,Spain Segunda,Oviedo,Girona,Next best,0.7559770351323691,1.323,2026-11-14,3,WIN
 2026-11-15 13:00:00,Spain Segunda,Tenerife,Ceuta,Next best,0.7673233777928399,1.303,2026-11-14,1,WIN
 2026-11-15 15:15:00,Spain Segunda,Granada,Las Palmas,Next best,0.7900271578819326,1.266,2026-11-14,1,WIN
-2026-11-15 17:30:00,Spain Segunda,Eldense,Sabadell,Next best,0.7699536194642923,1.299,2026-11-14,0,LOSS
 2026-11-15 17:30:00,Spain Segunda,Eibar,Cadiz,Next best,0.7820295113148134,1.279,2026-11-14,2,WIN
+2026-11-15 17:30:00,Spain Segunda,Eldense,Sabadell,Next best,0.7699536194642923,1.299,2026-11-14,0,LOSS
 2026-11-16 19:30:00,Spain Segunda,Albacete,Celta B,Next best,0.7816276094081827,1.279,2026-11-14,0,LOSS
 2026-11-20 19:30:00,Germany Bundesliga,Bayern Munich,FC Koln,Pick,0.897915932265554,1.114,2026-11-20,,
 2026-11-20 19:45:00,England National League,Southend,Boreham Wood,Next best,0.8492957342276434,1.177,2026-11-20,,
@@ -120,6 +120,7 @@ date,comp_name,home,away,tier,p,fair_odds,logged,g2h,result
 2026-11-22 14:30:00,Germany Bundesliga,Augsburg,Mainz,Next best,0.8372569182999333,1.194,2026-11-21,,
 2026-11-22 15:45:00,Netherlands Eredivisie,Go Ahead Eagles,For Sittard,Next best,0.8533119258279717,1.172,2026-11-20,,
 2026-11-22 16:15:00,France Ligue 1,Lorient,Rennes,Next best,0.8351983279459334,1.197,2026-11-21,,
+2026-11-22 16:30:00,England Premier League,Liverpool,Man United,Next best,0.8252127070943287,1.212,2026-11-21,,
 2026-11-22 16:30:00,Germany Bundesliga,Werder Bremen,Hamburg,Next best,0.8465893838795443,1.181,2026-11-20,,
 2026-11-22 19:45:00,France Ligue 1,Marseille,Le Mans,Next best,0.8511252546336965,1.175,2026-11-20,,
 2026-11-23 17:00:00,Turkey Super Lig,Buyuksehyr,Corum,Next best,0.8450502307402492,1.183,2026-11-20,,
