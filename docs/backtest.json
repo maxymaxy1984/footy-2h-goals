@@ -1,55 +1,55 @@
 {
   "summary": {
     "train_matches": 37941,
-    "test_matches": 9900,
+    "test_matches": 10080,
     "test_from": "2025-07-01",
-    "test_to": "2026-11-16",
-    "base_rate": 0.7972727272727272,
-    "brier_model": 0.16090480064473323,
-    "brier_baseline": 0.16193458279114079,
-    "logloss_model": 0.5018808374779913,
-    "logloss_baseline": 0.5050677437470498
+    "test_to": "2026-11-22",
+    "base_rate": 0.797718253968254,
+    "brier_model": 0.16064600152259073,
+    "brier_baseline": 0.16168527525384005,
+    "logloss_model": 0.5012999149695551,
+    "logloss_baseline": 0.5045044014756529
   },
   "thresholds": [
     {
       "threshold": 0.8,
-      "picks": 3051,
-      "per_week": 44.6,
-      "hit_rate": 0.8302196001311045,
-      "avg_pred": 0.8190212990016029,
+      "picks": 3133,
+      "per_week": 45.2,
+      "hit_rate": 0.8301947015639962,
+      "avg_pred": 0.8191959618932361,
       "fair_odds_hit": 1.205
     },
     {
       "threshold": 0.82,
-      "picks": 1183,
-      "per_week": 17.3,
-      "hit_rate": 0.8351648351648352,
-      "avg_pred": 0.8343164701855553,
-      "fair_odds_hit": 1.197
+      "picks": 1226,
+      "per_week": 17.7,
+      "hit_rate": 0.8360522022838499,
+      "avg_pred": 0.8344761592836021,
+      "fair_odds_hit": 1.196
     },
     {
       "threshold": 0.84,
-      "picks": 293,
-      "per_week": 4.3,
-      "hit_rate": 0.8873720136518771,
-      "avg_pred": 0.8519022716161399,
+      "picks": 311,
+      "per_week": 4.5,
+      "hit_rate": 0.887459807073955,
+      "avg_pred": 0.8520209479209632,
       "fair_odds_hit": 1.127
     },
     {
       "threshold": 0.86,
-      "picks": 54,
-      "per_week": 0.8,
-      "hit_rate": 0.9074074074074074,
-      "avg_pred": 0.870301304775023,
-      "fair_odds_hit": 1.102
+      "picks": 59,
+      "per_week": 0.9,
+      "hit_rate": 0.8983050847457628,
+      "avg_pred": 0.8703033944679505,
+      "fair_odds_hit": 1.113
     },
     {
       "threshold": 0.88,
-      "picks": 13,
+      "picks": 14,
       "per_week": 0.2,
-      "hit_rate": 1.0,
-      "avg_pred": 0.8825810677059696,
-      "fair_odds_hit": 1.0
+      "hit_rate": 0.9285714285714286,
+      "avg_pred": 0.8835201352429005,
+      "fair_odds_hit": 1.077
     },
     {
       "threshold": 0.9,
