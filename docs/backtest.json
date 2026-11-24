@@ -1,46 +1,46 @@
 {
   "summary": {
     "train_matches": 37941,
-    "test_matches": 10080,
+    "test_matches": 10088,
     "test_from": "2025-07-01",
-    "test_to": "2026-11-22",
-    "base_rate": 0.797718253968254,
-    "brier_model": 0.16064600152259073,
-    "brier_baseline": 0.16168527525384005,
-    "logloss_model": 0.5012999149695551,
-    "logloss_baseline": 0.5045044014756529
+    "test_to": "2026-11-23",
+    "base_rate": 0.7978786677240286,
+    "brier_model": 0.1605527684033384,
+    "brier_baseline": 0.16159551102915304,
+    "logloss_model": 0.50108534471871,
+    "logloss_baseline": 0.5043015677275325
   },
   "thresholds": [
     {
       "threshold": 0.8,
-      "picks": 3133,
+      "picks": 3136,
       "per_week": 45.2,
-      "hit_rate": 0.8301947015639962,
-      "avg_pred": 0.8191959618932361,
-      "fair_odds_hit": 1.205
+      "hit_rate": 0.8303571428571429,
+      "avg_pred": 0.8192032313888558,
+      "fair_odds_hit": 1.204
     },
     {
       "threshold": 0.82,
-      "picks": 1226,
+      "picks": 1228,
       "per_week": 17.7,
-      "hit_rate": 0.8360522022838499,
-      "avg_pred": 0.8344761592836021,
+      "hit_rate": 0.8363192182410424,
+      "avg_pred": 0.8344767136636304,
       "fair_odds_hit": 1.196
     },
     {
       "threshold": 0.84,
-      "picks": 311,
+      "picks": 312,
       "per_week": 4.5,
-      "hit_rate": 0.887459807073955,
-      "avg_pred": 0.8520209479209632,
-      "fair_odds_hit": 1.127
+      "hit_rate": 0.8878205128205128,
+      "avg_pred": 0.851996188919266,
+      "fair_odds_hit": 1.126
     },
     {
       "threshold": 0.86,
       "picks": 59,
-      "per_week": 0.9,
+      "per_week": 0.8,
       "hit_rate": 0.8983050847457628,
-      "avg_pred": 0.8703033944679505,
+      "avg_pred": 0.8703033944679424,
       "fair_odds_hit": 1.113
     },
     {
@@ -48,7 +48,7 @@
       "picks": 14,
       "per_week": 0.2,
       "hit_rate": 0.9285714285714286,
-      "avg_pred": 0.8835201352429005,
+      "avg_pred": 0.8835201352428907,
       "fair_odds_hit": 1.077
     },
     {
